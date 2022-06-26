@@ -13,13 +13,13 @@ class ArticleBase(BaseModel):
 class ArticleCreate(ArticleBase):
     title : str
     status : str 
-    description : str 
+    description : Optional[str] 
 
 class ShowArticle(ArticleBase):
     title : str 
     status : str  
-    date_posted : date
     description : Optional[str]
+    date_posted : date
 
     class Config():
         orm_mode = True

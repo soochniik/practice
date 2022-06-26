@@ -14,8 +14,8 @@ router = APIRouter()
 
 
 @router.post("/create-article/",response_model=ShowArticle)
-def create_article(article: ArticleCreate,db: Session = Depends(get_db),current_user:User = Depends(get_current_user_from_token)):
-    article = create_new_article(article=article,db=db,owner_id=current_user)
+def create_article(article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+    article = create_new_article(article=article,db=db,owner_id=current_user.id)
     return article
 
 
@@ -45,7 +45,7 @@ def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db))
 
 @router.delete("/delete/{id}")
 def delete_article(id: int,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    article = retreive_job(id =id,db=db)
+    article = retreive_article(id =id,db=db)
     if not article:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Article with {id} does not exist")
     print(article.owner_id,current_user.id,current_user.is_superuser)

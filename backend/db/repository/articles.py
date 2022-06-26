@@ -18,7 +18,7 @@ def retreive_article(id:int,db:Session):
 
 
 def list_articles(db : Session):
-    articles = db.query(Article).all().filter(Article.is_active == True)
+    articles = db.query(Article).all()
     return articles
 
 
