@@ -1,5 +1,5 @@
 from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
-from fastapi import Depends,APIRouter
+from fastapi import Depends,APIRouter,Response
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from fastapi import status,HTTPException
@@ -8,6 +8,7 @@ from db.session import get_db
 from core.hashing import Hasher
 from schemas.tokens import Token
 from db.repository.login import get_user
+from apis.utils import OAuth2PasswordBearerWithCookie
 from core.security import create_access_token
 from core.config import settings
 from jose import JWTError, jwt
@@ -26,8 +27,8 @@ def authenticate_user(username: str, password: str,db: Session):
 
 
 @router.post("/token", response_model=Token)
-def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: Session= Depends(get_db)):
-    user = authenticate_user(form_data.username, form_data.password,db)
+def login_for_access_token(response: Response,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):  #added response as a function parameter
+    user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -37,10 +38,11 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),db: 
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
+    response.set_cookie(key="access_token",value=f"Bearer {access_token}", httponly=True)  #set HttpOnly cookie in response
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
 
 
 def get_current_user_from_token(token: str = Depends(oauth2_scheme),db: Session=Depends(get_db)): 
