@@ -20,7 +20,7 @@ def create_article(article: ArticleCreate,db: Session = Depends(get_db),current_
 
 
 @router.get("/get/{id}",response_model=ShowArticle)
-def read_article(id:int,db:Session = Depends(get_db)):
+def read_article(id:int,db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     article = retreive_article(id=id,db=db)
     if not article:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Article with this id {id} does not exist")
@@ -28,13 +28,13 @@ def read_article(id:int,db:Session = Depends(get_db)):
 
 
 @router.get("/all",response_model=List[ShowArticle])
-def read_articles(db:Session = Depends(get_db)):
+def read_articles(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     articles = list_articles(db=db)
     return articles
 
 
 @router.put("/update/{id}")
-def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db)):
+def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     current_user = 1
     message = update_article_by_id(id=id,article=article,db=db,owner_id=current_user)
     if not message:
