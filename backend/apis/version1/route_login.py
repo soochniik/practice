@@ -29,7 +29,8 @@ def authenticate_user(username: str, password: str,db: Session):
 @router.post("/token", response_model=Token)
 def login_for_access_token(response: Response,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):  #added response as a function parameter
     user = authenticate_user(form_data.username, form_data.password, db)
-    if not user:
+    no_user = get_user(form_data.username,db)
+    if not user or no_user.is_active==0:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",

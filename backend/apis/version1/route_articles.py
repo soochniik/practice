@@ -15,32 +15,42 @@ router = APIRouter()
 
 @router.post("/create-article/",response_model=ShowArticle)
 def create_article(article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    article = create_new_article(article=article,db=db,owner_id=current_user.id)
-    return article
+    if current_user.is_writer or current_user.is_superuser:
+        article = create_new_article(article=article,db=db,owner_id=current_user.id)
+        return article
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
 
 
 @router.get("/get/{id}",response_model=ShowArticle)
-def read_article(id:int,db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+def read_article(id:int,db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     article = retreive_article(id=id,db=db)
     if not article:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Article with this id {id} does not exist")
     return article
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
 
 
 @router.get("/all",response_model=List[ShowArticle])
 def read_articles(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     articles = list_articles(db=db)
     return articles
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
 
 
 @router.put("/update/{id}")
 def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     current_user = 1
-    message = update_article_by_id(id=id,article=article,db=db,owner_id=current_user)
+    message = update_article_by_id(id=id, article=article, db=db, owner_id=current_user)
     if not message:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Article with id {id} not found")
-    return {"msg":"Successfully updated data."}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with id {id} not found"
+        )
+    return {"msg": "Successfully updated data."}
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
 
 
 @router.delete("/delete/{id}")
