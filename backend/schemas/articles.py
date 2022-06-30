@@ -9,6 +9,13 @@ class ArticleBase(BaseModel):
     description : Optional[str] = None
     date_posted : Optional[date] = datetime.now().date()
 
+class ArticleBase1(BaseModel):
+    title : Optional[str] = None
+    status : Optional[str] = None
+    description : Optional[str] = None
+    id : Optional[int] = None
+    date_posted : Optional[date] = datetime.now().date()  
+
 class ArticleBase2(BaseModel):
     status : Optional[str] = None
 
@@ -20,10 +27,11 @@ class ArticleCreate(ArticleBase):
 class ArticleUpdate(ArticleBase2):
     status : str = "publ"
 
-class ShowArticle(ArticleBase):
+class ShowArticle(ArticleBase1):
     title : str 
     status : str  
     description : str 
+    id : int
     date_posted : date
 
     class Config():

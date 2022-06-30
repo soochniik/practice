@@ -10,6 +10,11 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int):
     db.commit()
     db.refresh(article_object)
     return article_object
+    
+
+def list_draft_articles(db:Session):
+    item = list(db.query(Article).filter(Article.status == 'draft'))
+    return item
 
 
 def list_publ_articles(db:Session):
@@ -19,6 +24,11 @@ def list_publ_articles(db:Session):
 
 def list_ok_articles(db:Session):
     item = list(db.query(Article).filter(Article.status == 'ok'))
+    return item
+
+
+def list_no_articles(db:Session):
+    item = list(db.query(Article).filter(Article.status == 'no'))
     return item
 
 
