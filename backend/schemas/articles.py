@@ -8,12 +8,17 @@ class ArticleBase(BaseModel):
     status : Optional[str] = None
     description : Optional[str] = None
     date_posted : Optional[date] = datetime.now().date()
-    
+
+class ArticleBase2(BaseModel):
+    status : Optional[str] = None
 
 class ArticleCreate(ArticleBase):
     title : str
-    status : str 
+    status : str = "draft"
     description : Optional[str] 
+
+class ArticleUpdate(ArticleBase2):
+    status : str = "publ"
 
 class ShowArticle(ArticleBase):
     title : str 

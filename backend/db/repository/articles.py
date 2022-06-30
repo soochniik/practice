@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from schemas.articles import ArticleCreate
+from schemas.articles import ArticleCreate, ArticleUpdate
 from db.models.articles import Article
 
 
@@ -22,7 +22,7 @@ def list_articles(db : Session):
     return articles
 
 
-def update_article_by_id(id:int, article: ArticleCreate,db: Session,owner_id):
+def update_article_by_id(id:int, article: ArticleUpdate,db: Session,owner_id):
     existing_article = db.query(Article).filter(Article.id == id)
     if not existing_article.first():
         return 0
