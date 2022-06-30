@@ -3,7 +3,7 @@ from fastapi import Request,Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from db.repository.articles import list_articles
+from db.repository.articles import list_ok_articles
 from db.session import get_db
 
 

@@ -12,14 +12,14 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int):
     return article_object
 
 
-def retreive_article(id:int,db:Session):
-    item = db.query(Article).filter(Article.id == id).first()
+def list_publ_articles(db:Session):
+    item = list(db.query(Article).filter(Article.status == 'publ'))
     return item
 
 
-def list_articles(db : Session):
-    articles = db.query(Article).all()
-    return articles
+def list_ok_articles(db:Session):
+    item = list(db.query(Article).filter(Article.status == 'ok'))
+    return item
 
 
 def update_article_by_id(id:int, article: ArticleUpdate,db: Session,owner_id):

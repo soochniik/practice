@@ -23,7 +23,7 @@ class ArticleUpdate(ArticleBase2):
 class ShowArticle(ArticleBase):
     title : str 
     status : str  
-    description : Optional[str]
+    description : str 
     date_posted : date
 
     class Config():
