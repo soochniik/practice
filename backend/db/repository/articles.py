@@ -10,6 +10,11 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int):
     db.commit()
     db.refresh(article_object)
     return article_object
+
+
+def retreive_article(id:int,db:Session):
+    item = db.query(Article).filter(Article.id == id).first()
+    return item
     
 
 def list_draft_articles(db:Session):

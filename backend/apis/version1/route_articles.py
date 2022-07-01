@@ -5,7 +5,7 @@ from typing import List
 from db.session import get_db
 from db.models.articles import Article
 from schemas.articles import ArticleCreate,ShowArticle, ArticleUpdate
-from db.repository.articles import create_new_article,update_article_by_id,delete_article_by_id
+from db.repository.articles import create_new_article,update_article_by_id,delete_article_by_id,retreive_article
 from db.repository.articles import list_publ_articles,list_ok_articles,list_draft_articles,list_no_articles
 from db.models.users import User
 from apis.version1.route_login import get_current_user_from_token

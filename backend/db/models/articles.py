@@ -13,4 +13,4 @@ class Article(Base):
     is_active = Column(Boolean(),default=True)
     owner_id =  Column(Integer,ForeignKey("user.id"))
     owner = relationship("User",back_populates="articles")
-    
+    com = relationship("Comment",back_populates="artic")

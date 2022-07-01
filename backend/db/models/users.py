@@ -14,3 +14,4 @@ class User(Base):
     is_moderator = Column(Boolean(),default=False)
     is_writer = Column(Boolean(),default=False)
     articles = relationship("Article",back_populates="owner")
+    com = relationship("Comment",back_populates="us")
