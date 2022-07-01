@@ -25,7 +25,7 @@ class ArticleCreate(ArticleBase):
     description : Optional[str] 
 
 class ArticleUpdate(ArticleBase2):
-    status : str = "publ"
+    status : str
 
 class ShowArticle(ArticleBase1):
     title : str 

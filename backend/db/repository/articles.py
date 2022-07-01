@@ -15,7 +15,7 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int):
 def retreive_article(id:int,db:Session):
     item = db.query(Article).filter(Article.id == id).first()
     return item
-    
+
 
 def list_draft_articles(db:Session):
     item = list(db.query(Article).filter(Article.status == 'draft'))
@@ -38,6 +38,16 @@ def list_no_articles(db:Session):
 
 
 def update_article_by_id(id:int, article: ArticleUpdate,db: Session,owner_id):
+    existing_article = db.query(Article).filter(Article.id == id, Article.status != 'ok')
+    if not existing_article.first():
+        return 0
+    article.__dict__.update(owner_id=owner_id)
+    existing_article.update(article.__dict__)
+    db.commit()
+    return 1
+
+
+def update_for_ok(id:int, article: ArticleUpdate,db: Session,owner_id):
     existing_article = db.query(Article).filter(Article.id == id)
     if not existing_article.first():
         return 0
