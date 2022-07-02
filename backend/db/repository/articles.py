@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from schemas.articles import ArticleCreate, ArticleUpdate
+from schemas.articles import ArticleCreate, ArticleUpdate1, ArticleUpdate2, ArticleUpdate3, ArticleUpdate4
 from db.models.articles import Article
 
 
@@ -37,7 +37,7 @@ def list_no_articles(db:Session):
     return item
 
 
-def update_article_by_id(id:int, article: ArticleUpdate,db: Session,owner_id):
+def update_article_by_id(id:int, article: ArticleUpdate1,db: Session,owner_id):
     existing_article = db.query(Article).filter(Article.id == id, Article.status != 'ok')
     if not existing_article.first():
         return 0
@@ -47,8 +47,18 @@ def update_article_by_id(id:int, article: ArticleUpdate,db: Session,owner_id):
     return 1
 
 
-def update_for_ok(id:int, article: ArticleUpdate,db: Session,owner_id):
-    existing_article = db.query(Article).filter(Article.id == id)
+def update_for_draft(id:int, article: ArticleUpdate2,db: Session,owner_id):
+    existing_article = db.query(Article).filter(Article.id == id, Article.status == "draft")
+    if not existing_article.first():
+        return 0
+    article.__dict__.update(owner_id=owner_id)
+    existing_article.update(article.__dict__)
+    db.commit()
+    return 1
+
+
+def update_for_ok(id:int, article: ArticleUpdate4,db: Session,owner_id):
+    existing_article = db.query(Article).filter(Article.id == id, Article.status == "ok")
     if not existing_article.first():
         return 0
     article.__dict__.update(owner_id=owner_id)

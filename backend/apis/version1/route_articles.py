@@ -4,9 +4,8 @@ from fastapi import Depends,HTTPException,status
 from typing import List
 from db.session import get_db
 from db.models.articles import Article
-from schemas.articles import ArticleCreate,ShowArticle, ArticleUpdate
-from db.repository.articles import create_new_article,update_article_by_id,update_for_ok,delete_article_by_id,retreive_article
-from db.repository.articles import list_publ_articles,list_ok_articles,list_draft_articles,list_no_articles
+from schemas.articles import *
+from db.repository.articles import *
 from db.models.users import User
 from apis.version1.route_login import get_current_user_from_token
 
@@ -58,11 +57,11 @@ def read_no_articles(db:Session = Depends(get_db),current_user: User = Depends(g
                             detail=f"You are not permitted!!!!")
 
 
-@router.put("/update-writer/{id}")
-def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+@router.put("/update-draft/{id}")
+def update_article(id: int,article: ArticleUpdate1,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     if current_user.is_writer or current_user.is_superuser:
         current_user = 1
-        message = update_article_by_id(id=id, article=article, db=db, owner_id=current_user)
+        message = update_article_by_id(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with id {id} not found"
@@ -72,11 +71,11 @@ def update_article(id: int,article: ArticleCreate,db: Session = Depends(get_db),
                             detail=f"You are not permitted!!!!")
 
 
-@router.put("/update-moderator/{id}")
-def update_status(id: int,article: ArticleUpdate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_moderator or current_user.is_superuser:
+@router.put("/update-for-writer/{id}")
+def update_status(id: int,article: ArticleUpdate2,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+    if current_user.is_writer or current_user.is_superuser:
         current_user = 1
-        message = update_article_by_id(id=id, article=article, db=db, owner_id=current_user)
+        message = update_for_draft(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with id {id} not found"
@@ -86,11 +85,25 @@ def update_status(id: int,article: ArticleUpdate,db: Session = Depends(get_db),c
                             detail=f"You are not permitted!!!!")
 
 
-@router.put("/update-for-ok/{id}")
-def update_status(id: int,article: ArticleUpdate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+@router.put("/update-for-moderator/{id}")
+def update_status(id: int,article: ArticleUpdate3,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     if current_user.is_moderator or current_user.is_superuser:
         current_user = 1
-        message = update_for_ok(id=id, article=article, db=db, owner_id=current_user)
+        message = update_article_by_id(id=id, article=article, db=db, owner_id=Article.owner_id)
+        if not message:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with id {id} not found"
+            )
+        return {"msg": "Successfully updated data."}
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
+
+
+@router.put("/update-ok/{id}")
+def update_status(id: int,article: ArticleUpdate4,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+    if current_user.is_writer or current_user.is_superuser:
+        current_user = 1
+        message = update_for_ok(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Article with id {id} not found"
