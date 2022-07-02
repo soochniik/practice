@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from schemas.com import ComCreate
+from schemas.com import ComCreate, ComUpdate
 from db.models.com import Comment
 
 
@@ -22,7 +22,7 @@ def list_com(db:Session):
     return item
 
 
-def update_com(id:int, com: ComCreate,db: Session,user):
+def update_com(id:int, com: ComUpdate,db: Session,user):
     existing = db.query(Comment).filter(Comment.id == id)
     if not existing.first():
         return 0

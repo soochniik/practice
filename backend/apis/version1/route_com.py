@@ -4,7 +4,7 @@ from fastapi import Depends,HTTPException,status
 from typing import List
 from db.session import get_db
 from db.models.com import Comment
-from schemas.com import ComCreate,ShowCom
+from schemas.com import ComCreate,ShowCom,ComUpdate
 from db.repository.com import create_new_com,update_com,delete_com,list_com,retreive_com
 from db.models.users import User
 from apis.version1.route_login import get_current_user_from_token
@@ -30,7 +30,7 @@ def read_comments(db:Session = Depends(get_db),current_user: User = Depends(get_
 
 
 @router.put("/update-comment/{id}")
-def update_comment(id: int,com: ComCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
+def update_comment(id: int,com: ComUpdate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     current_user = 1
     message = update_com(id=id, com=com, db=db, user=current_user)
     if not message:
