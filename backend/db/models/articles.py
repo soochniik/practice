@@ -14,3 +14,4 @@ class Article(Base):
     owner_id =  Column(Integer,ForeignKey("user.id"))
     owner = relationship("User",back_populates="articles")
     com = relationship("Comment",back_populates="artic")
+    reason = relationship("Reason",back_populates="artic")

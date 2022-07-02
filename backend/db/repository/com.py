@@ -17,8 +17,8 @@ def retreive_com(id:int,db:Session):
     return item
 
 
-def list_com(db:Session):
-    item = db.query(Comment).all()
+def list_com(article:int, db:Session):
+    item = list(db.query(Comment).filter(Comment.article == article))
     return item
 
 

@@ -3,27 +3,22 @@ from pydantic import BaseModel
 from datetime import date,datetime
 
 
-class ComBase(BaseModel):
+class ReasonBase(BaseModel):
     article : Optional[int] = None
     description : Optional[str] = None
 
 
-class ComBase1(BaseModel):
+class ReasonBase1(BaseModel):
     description : Optional[str] = None
 
 
-class ComCreate(ComBase):
+class ReasonCreate(ReasonBase):
     article : int
-    description : str = "add comment"
+    description : str = "reason"
 
 
-class ComUpdate(ComBase1):
-    description : Optional[str] = None
-
-
-class ShowCom(ComBase1): 
-    description : Optional[str] = None
-    id : int
+class ShowReason(ReasonBase1): 
+    description : Optional[str] 
 
     class Config():
         orm_mode = True
