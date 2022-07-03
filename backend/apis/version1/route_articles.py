@@ -16,7 +16,7 @@ router = APIRouter()
 @router.post("/create-article/",response_model=ShowArticle)
 def create_article(article: ArticleCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     if current_user.is_writer or current_user.is_superuser:
-        article = create_new_article(article=article,db=db,owner_id=current_user.id)
+        article = create_new_article(article=article,db=db,owner_id=current_user.id,author=current_user.username)
         return article
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")

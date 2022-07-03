@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
-from schemas.articles import ArticleCreate, ArticleUpdate1, ArticleUpdate2, ArticleUpdate3, ArticleUpdate4
+from schemas.articles import ArticleCreate, ArticleUpdate1, ArticleUpdate2, ArticleUpdate3, ArticleUpdate4, ArticleEval
 from db.models.articles import Article
 
 
-def create_new_article(article: ArticleCreate,db: Session,owner_id:int):
-    article_object = Article(**article.dict(),owner_id=owner_id)
+def create_new_article(article: ArticleCreate,db: Session,owner_id:int,author:str):
+    article_object = Article(**article.dict(),owner_id=owner_id,author=author)
     db.add(article_object)
     db.commit()
     db.refresh(article_object)

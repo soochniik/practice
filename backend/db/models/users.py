@@ -15,4 +15,5 @@ class User(Base):
     is_writer = Column(Boolean(),default=False)
     articles = relationship("Article",back_populates="owner")
     com = relationship("Comment",back_populates="us")
+    evaluation = relationship("Evaluation",back_populates="us")
     reason = relationship("Reason",back_populates="us")

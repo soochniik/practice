@@ -22,6 +22,9 @@ class ArticleBase3(BaseModel):
     title : Optional[str] = None
     description : Optional[str] = None
 
+class ArticleBase4(BaseModel):
+    evaluation : Optional[int]
+
 class ArticleCreate(ArticleBase):
     title : str
     description : Optional[str] 
@@ -38,6 +41,9 @@ class ArticleUpdate3(ArticleBase2):
 
 class ArticleUpdate4(ArticleBase2):
     status : str = "draft" 
+
+class ArticleEval(ArticleBase4):
+    evaluation : int
        
 class ShowArticle(ArticleBase1):
     title : str 
