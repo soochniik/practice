@@ -19,6 +19,11 @@ def retreive_article(id:int,db:Session):
     return list(item)
 
 
+def retreive_articles(theme:str,db:Session):
+    item = db.query(Article).filter(Article.theme == theme)
+    return list(item)
+
+
 def new_ok_articles(db:Session):
     item = list(db.query(Article).filter(Article.date_posted == datetime.now().date(), Article.status == 'ok'))
     return item

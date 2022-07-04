@@ -17,3 +17,4 @@ class User(Base):
     com = relationship("Comment",back_populates="us")
     evaluation = relationship("Evaluation",back_populates="us")
     reason = relationship("Reason",back_populates="us")
+    theme = relationship("Theme",back_populates="us")

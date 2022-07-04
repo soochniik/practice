@@ -56,6 +56,14 @@ def read_article(id:int, db:Session = Depends(get_db),current_user: User = Depen
                             detail=f"You are not permitted!!!!")
 
 
+@router.get("/get-by-theme/{theme}",response_model=List[ShowArticle])
+def read_articles_by_theme(theme:str, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
+    articles = retreive_articles(theme=theme,db=db)
+    return articles
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
+
+
 @router.get("/get-no",response_model=List[ShowArticle])
 def read_no_articles(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     if current_user.is_moderator or current_user.is_writer or current_user.is_superuser:
