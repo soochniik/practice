@@ -40,7 +40,7 @@ def update_comment(id: int,com: ComUpdate,db: Session = Depends(get_db),current_
             )
         return {"msg": "Successfully updated data."}
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail=f"You are not permitted!!!!")
+                            detail=f"You are not permitted!!!!") 
 
 
 @router.delete("/delete/{id}")

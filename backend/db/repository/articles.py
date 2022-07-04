@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from datetime import date,datetime
 from schemas.articles import ArticleCreate, ArticleUpdate1, ArticleUpdate2, ArticleUpdate3, ArticleUpdate4, ArticleEval
 from db.models.articles import Article
 
@@ -13,7 +13,14 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int,author:st
 
 
 def retreive_article(id:int,db:Session):
-    item = db.query(Article).filter(Article.id == id).first()
+    item = db.query(Article).filter(Article.id == id)
+    #item.reader+=1
+    #db.commit()
+    return list(item)
+
+
+def new_ok_articles(db:Session):
+    item = list(db.query(Article).filter(Article.date_posted == datetime.now().date(), Article.status == 'ok'))
     return item
 
 

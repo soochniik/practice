@@ -48,11 +48,27 @@ def read_ok_articles(db:Session = Depends(get_db),current_user: User = Depends(g
                             detail=f"You are not permitted!!!!")
 
 
+@router.get("/get-by-id/{id}",response_model=List[ShowArticle])
+def read_article(id:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
+    article = retreive_article(id=id,db=db)
+    return article
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=f"You are not permitted!!!!")
+
+
 @router.get("/get-no",response_model=List[ShowArticle])
 def read_no_articles(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     if current_user.is_moderator or current_user.is_writer or current_user.is_superuser:
         article = list_no_articles(db=db)
         return article
+    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
+                            detail=f"You are not permitted!!!!")
+
+
+@router.get("/get-new-ok",response_model=List[ShowArticle])
+def read_new_ok_articles(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
+    article = new_ok_articles(db=db)
+    return article
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
 
