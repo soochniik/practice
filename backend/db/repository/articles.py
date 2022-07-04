@@ -13,7 +13,7 @@ def create_new_article(article: ArticleCreate,db: Session,owner_id:int,author:st
 
 
 def retreive_article(id:int,db:Session):
-    item = db.query(Article).filter(Article.id == id, Article.status == 'ok').first()
+    item = db.query(Article).filter(Article.id == id).first()
     item.reader+=1
     db.commit()
     return item
