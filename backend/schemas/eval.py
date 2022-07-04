@@ -17,8 +17,13 @@ class EvaluationCreate(EvaluationBase):
     evaluation : int
 
 
+class EvaluationUpdate(EvaluationBase1):
+    evaluation : int
+
+
 class ShowEvaluation(EvaluationBase1): 
     evaluation : int
+    id : int
 
     class Config():
         orm_mode = True
