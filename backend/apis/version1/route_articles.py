@@ -48,7 +48,7 @@ def read_ok_articles(db:Session = Depends(get_db),current_user: User = Depends(g
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/get-by-id/{id}",response_model=List[ShowArticle])
+@router.get("/get-by-id/{id}",response_model=ShowArticle)
 def read_article(id:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     article = retreive_article(id=id,db=db)
     return article
