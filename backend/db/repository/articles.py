@@ -86,3 +86,33 @@ def delete_article_by_id(id: int,db: Session,owner_id):
     existing_article.delete(synchronize_session=False)
     db.commit()
     return 1
+
+
+def search_title(query: str, db: Session):
+    articles = db.query(Article).filter(Article.title.contains(query), Article.status == 'ok')
+    return articles
+
+
+def search_description(query: str, db: Session):
+    articles = db.query(Article).filter(Article.description.contains(query), Article.status == 'ok')
+    return articles
+
+
+def search_date(query: str, db: Session):
+    articles = db.query(Article).filter(Article.date_posted.contains(query), Article.status == 'ok')
+    return articles
+
+
+def search_author(query: str, db: Session):
+    articles = db.query(Article).filter(Article.author.contains(query), Article.status == 'ok')
+    return articles
+
+
+def search_reader(query: str, db: Session):
+    articles = db.query(Article).filter(Article.reader.contains(query), Article.status == 'ok')
+    return articles
+
+
+def search_eval(query: str, db: Session):
+    articles = db.query(Article).filter(Article.eval.contains(query), Article.status == 'ok')
+    return articles
