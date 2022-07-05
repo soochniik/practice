@@ -6,6 +6,7 @@ from datetime import date,datetime
 from db.session import get_db
 from db.models.articles import Article
 from db.repository.articles import *
+from schemas.articles import ShowArticle
 from db.models.users import User
 from apis.version1.route_login import get_current_user_from_token
 

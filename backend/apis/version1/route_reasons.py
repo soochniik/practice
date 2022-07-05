@@ -24,7 +24,7 @@ def create_reason(reason: ReasonCreate,db: Session = Depends(get_db),current_use
 
 @router.get("/get-reason/{article}",response_model=List[ShowReason])
 def read_reason(article:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
-    if current_user.is_superuser or current_user.is_moderator:
+    if current_user.is_superuser or current_user.is_moderator or current_user.is_writer:
         reasons = list_reason(article=article, db=db)
         return reasons
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,

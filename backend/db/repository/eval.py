@@ -15,7 +15,8 @@ def create_evaluation(evaluation: EvaluationCreate, db: Session, user:int):
     avg_eval=avg_eval.replace('(', '')
     avg_eval=avg_eval.replace(',)', '')
     eval_article = db.query(Article).filter(Article.id == article1).first()
-    eval_article.eval = float(avg_eval)
+    avg_eval = float(avg_eval)
+    eval_article.eval = float("{0:.2f}".format(avg_eval))
     db.commit()
     return evaluation_object
 
