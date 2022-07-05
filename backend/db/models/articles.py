@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean,Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean,Date, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
 from db.base_class import Base
@@ -12,6 +12,7 @@ class Article(Base):
     status = Column(String,nullable=False,default="draft")
     description = Column(String,nullable=False)
     date_posted = Column(Date)
+    eval = Column(Float,nullable=False,default=0)
     reader = Column(Integer,nullable=False,default=0)
     owner_id = Column(Integer,ForeignKey("user.id"))
     owner = relationship("User",back_populates="articles")
