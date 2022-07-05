@@ -53,7 +53,7 @@ def update_article_by_id(id:int, article: ArticleUpdate1,db: Session,owner_id):
     existing_article = db.query(Article).filter(Article.id == id, Article.status != 'ok')
     if not existing_article.first():
         return 0
-    article.__dict__.update(owner_id=owner_id)
+    article.__dict__.update(owner_id=owner_id, date_posted=datetime.now().date())
     existing_article.update(article.__dict__)
     db.commit()
     return 1
