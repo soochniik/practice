@@ -6,12 +6,14 @@ from apis.version1 import route_reasons
 from apis.version1 import route_eval
 from apis.version1 import route_themes
 from apis.version1 import route_search
+from apis.version1 import route_admin
 
 from fastapi import APIRouter
 
 
 api_router = APIRouter()
 api_router.include_router(route_users.router, prefix="/users", tags=["users"])
+api_router.include_router(route_admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(route_search.router, prefix="/search", tags=["serch"])
 api_router.include_router(route_articles.router, prefix="/articles", tags=["articles"])
 api_router.include_router(route_themes.router, prefix="/themes", tags=["themes"])

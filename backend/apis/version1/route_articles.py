@@ -84,7 +84,7 @@ def read_new_ok_articles(db:Session = Depends(get_db),current_user: User = Depen
 
 @router.put("/update-draft/{id}")
 def update_article(id: int,article: ArticleUpdate1,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_writer or current_user.is_superuser:
+    if current_user.is_writer or current_user.is_superuser or article.owner_id == current_user.id:
         current_user = 1
         message = update_article_by_id(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
