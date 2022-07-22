@@ -24,11 +24,26 @@ def list_users(db:Session):
     item = db.query(User).all()
     return item
 
+
 def upd_for_admin(id:int, user: UserUpdate,db: Session):
     existing_user = db.query(User).filter(User.id == id)
     if not existing_user.first():
         return 0
     user.__dict__.update()
     existing_user.update(user.__dict__)
+    db.commit()
+    return 1
+
+
+def retreive_user(id:int,db:Session):
+    item = db.query(User).first()
+    return item
+
+
+def delete_user_by_id(id: int,db: Session):
+    existing_user = db.query(User).filter(User.id == id)
+    if not existing_user.first():
+        return 0
+    existing_user.delete(synchronize_session=False)
     db.commit()
     return 1
