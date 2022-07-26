@@ -18,3 +18,4 @@ class User(Base):
     evaluation = relationship("Evaluation",back_populates="us")
     reason = relationship("Reason",back_populates="us")
     theme = relationship("Theme",back_populates="us")
+    auth = relationship("Author",back_populates="us")

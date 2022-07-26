@@ -5,6 +5,7 @@ from typing import List
 from datetime import date,datetime
 from db.session import get_db
 from db.models.articles import Article
+from db.models.authors import Author
 from schemas.articles import *
 from db.repository.articles import *
 from db.models.users import User
@@ -84,7 +85,8 @@ def read_new_ok_articles(db:Session = Depends(get_db),current_user: User = Depen
 
 @router.put("/update-draft/{id}")
 def update_article(id: int,article: ArticleUpdate1,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_writer or current_user.is_superuser or article.owner_id == current_user.id:
+    author = db.query(Author).filter(Author.article == id, Author.author_id == current_user.id).first()
+    if current_user.is_superuser or Article.owner_id == current_user.id or author.author_id == current_user.id:
         current_user = 1
         message = update_article_by_id(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
@@ -98,7 +100,8 @@ def update_article(id: int,article: ArticleUpdate1,db: Session = Depends(get_db)
 
 @router.put("/update-for-writer/{id}")
 def update_status(id: int,article: ArticleUpdate2,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_writer or current_user.is_superuser:
+    author = db.query(Author).filter(Author.article == id, Author.author_id == current_user.id).first()
+    if current_user.is_superuser or Article.owner_id == current_user.id or author.author_id == current_user.id:
         current_user = 1
         message = update_for_draft(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:
@@ -126,7 +129,7 @@ def update_status(id: int,article: ArticleUpdate3,db: Session = Depends(get_db),
 
 @router.put("/update-ok/{id}")
 def update_status(id: int,article: ArticleUpdate4,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_writer or current_user.is_superuser:
+    if current_user.is_superuser or current_user.is_writer:
         current_user = 1
         message = update_for_ok(id=id, article=article, db=db, owner_id=Article.owner_id)
         if not message:

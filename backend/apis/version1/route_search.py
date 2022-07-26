@@ -19,7 +19,7 @@ def serch_by_title(term: Optional[str] = None, db: Session = Depends(get_db), cu
     articles = search_title(term, db=db)
     article_titles = []
     for article in articles:
-        article_titles.append(article.title)
+        article_titles.append(article)
     return article_titles
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
@@ -30,7 +30,7 @@ def serch_by_description(term: Optional[str] = None, db: Session = Depends(get_d
     articles = search_description(term, db=db)
     article_descriptions = []
     for article in articles:
-        article_descriptions.append(article.description)
+        article_descriptions.append(article)
     return article_descriptions
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
@@ -41,7 +41,7 @@ def serch_by_author(term: Optional[str] = None, db: Session = Depends(get_db), c
     articles = search_author(term, db=db)
     article_authors = []
     for article in articles:
-        article_authors.append(article.author)
+        article_authors.append(article)
     return article_authors
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
@@ -52,7 +52,7 @@ def serch_by_date(term: Optional[str] = None, db: Session = Depends(get_db), cur
     articles = search_date(term, db=db)
     article_dates = []
     for article in articles:
-        article_dates.append(article.date_posted)
+        article_dates.append(article)
     return article_dates
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
@@ -63,7 +63,7 @@ def serch_by_evaluation(term: Optional[str] = None, db: Session = Depends(get_db
     articles = search_eval(term, db=db)
     article_evals = []
     for article in articles:
-        article_evals.append(article.eval)
+        article_evals.append(article)
     return article_evals
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
@@ -74,7 +74,7 @@ def serch_by_reader(term: Optional[str] = None, db: Session = Depends(get_db), c
     articles = search_reader(term, db=db)
     article_readers = []
     for article in articles:
-        article_readers.append(article.reader)
+        article_readers.append(article)
     return article_readers
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")

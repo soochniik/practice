@@ -19,3 +19,4 @@ class Article(Base):
     com = relationship("Comment",back_populates="artic")
     evaluation = relationship("Evaluation",back_populates="artic") 
     reason = relationship("Reason",back_populates="artic")
+    auth = relationship("Author",back_populates="artic")
