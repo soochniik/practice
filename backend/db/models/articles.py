@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 
-class Article(Base):
+class Article(Base):    #таблица Article
     id = Column(Integer,primary_key = True, index=True)
     title = Column(String,nullable= False)
     theme = Column(String,nullable= False)

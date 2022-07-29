@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 
-class Comment(Base):
+class Comment(Base):    #таблица Comment
     id = Column(Integer,primary_key = True, index=True)
     description = Column(String,nullable=False)
     article = Column(Integer,ForeignKey("article.id"))

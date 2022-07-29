@@ -13,7 +13,7 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.post("/leave-evaluation/",response_model=ShowEvaluation)
+@router.post("/leave-evaluation/",response_model=ShowEvaluation)    #маршрут для постановки оценки конкретной статье
 def leave_evaluation(evaluation: EvaluationCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     evaluation = create_evaluation(evaluation=evaluation,db=db,user=current_user.id)
     return evaluation
@@ -21,7 +21,7 @@ def leave_evaluation(evaluation: EvaluationCreate,db: Session = Depends(get_db),
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/get-evaluation/{article}",response_model=List[ShowEvaluation])
+@router.get("/get-evaluation/{article}",response_model=List[ShowEvaluation])    #маршрут для показа всех оценок конкретной статьи
 def show_evaluations(article:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     evaluations = list_evaluations(article=article, db=db)
     return evaluations
@@ -29,7 +29,7 @@ def show_evaluations(article:int, db:Session = Depends(get_db),current_user: Use
                             detail=f"You are not permitted!!!!")
 
 
-@router.put("/update-evaluation/{id}")
+@router.put("/update-evaluation/{id}")      #маршрут для изменения оценки (указав id оценки)
 def update_evaluation(id: int,evaluation: EvaluationUpdate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     if Evaluation.user == current_user.id or current_user.is_superuser:
         current_user = 1
@@ -43,7 +43,7 @@ def update_evaluation(id: int,evaluation: EvaluationUpdate,db: Session = Depends
                             detail=f"You are not permitted!!!!")
 
 
-@router.delete("/delete/{id}")
+@router.delete("/delete/{id}")      #маршрут для удаления оценки (указав id оценки)
 def delete_evaluation(id: int,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     evaluation = retreive_evaluation(id =id,db=db)
     if not evaluation:

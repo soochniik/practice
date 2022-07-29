@@ -14,7 +14,7 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.get("/by-title")
+@router.get("/by-title")    #маршрут для поиска статей по названию
 def serch_by_title(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_title(term, db=db)
     article_titles = []
@@ -25,7 +25,7 @@ def serch_by_title(term: Optional[str] = None, db: Session = Depends(get_db), cu
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/by-description")
+@router.get("/by-description")      #маршрут для поиска статей по содержимому
 def serch_by_description(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_description(term, db=db)
     article_descriptions = []
@@ -36,7 +36,7 @@ def serch_by_description(term: Optional[str] = None, db: Session = Depends(get_d
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/by-author")
+@router.get("/by-author")   #маршрут для поиска статей по авторам
 def serch_by_author(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_author(term, db=db)
     article_authors = []
@@ -47,7 +47,7 @@ def serch_by_author(term: Optional[str] = None, db: Session = Depends(get_db), c
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/by-date")
+@router.get("/by-date")     #маршрут для поиска статей по дате публикации
 def serch_by_date(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_date(term, db=db)
     article_dates = []
@@ -58,7 +58,7 @@ def serch_by_date(term: Optional[str] = None, db: Session = Depends(get_db), cur
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/by-eval")
+@router.get("/by-eval")     #маршрут для поиска статей по оцункам пользователей
 def serch_by_evaluation(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_eval(term, db=db)
     article_evals = []
@@ -69,7 +69,7 @@ def serch_by_evaluation(term: Optional[str] = None, db: Session = Depends(get_db
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/by-reader")
+@router.get("/by-reader")   #маршрут для поиска статей по количеству читателей
 def serch_by_reader(term: Optional[str] = None, db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_token)):
     articles = search_reader(term, db=db)
     article_readers = []

@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 
-class Evaluation(Base):
+class Evaluation(Base):     #таблица Evaluation
     id = Column(Integer,primary_key = True, index=True)
     evaluation = Column(Integer,nullable=False,default=0)
     article = Column(Integer,ForeignKey("article.id"))

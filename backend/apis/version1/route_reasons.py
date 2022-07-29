@@ -13,18 +13,18 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.post("/create-reason/",response_model=ShowReason)
+@router.post("/create-reason/",response_model=ShowReason)   #маршрут для создания комментария модератором при отклонении статьи
 def create_reason(reason: ReasonCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_superuser or current_user.is_moderator:
+    if current_user.is_superuser or current_user.is_moderator:      #доступно для модератора и администратора
         reason = create_new_reason(reason=reason,db=db,user=current_user.id)
         return reason
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/get-reason/{article}",response_model=List[ShowReason])
+@router.get("/get-reason/{article}",response_model=List[ShowReason])    #маршрут для просмотра комментария модератора (указав id статьи)
 def read_reason(article:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
-    if current_user.is_superuser or current_user.is_moderator or current_user.is_writer:
+    if current_user.is_superuser or current_user.is_moderator or current_user.is_writer:       #доступно для писателя, модератора и администратора
         reasons = list_reason(article=article, db=db)
         return reasons
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,

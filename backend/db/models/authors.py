@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 
-class Author(Base):
+class Author(Base):     #таблица Author
     id = Column(Integer,primary_key = True, index=True)
     article = Column(Integer,ForeignKey("article.id"))
     author_id = Column(Integer,ForeignKey("user.id"))

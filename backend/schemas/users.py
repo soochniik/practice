@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel,EmailStr
 
+#каждый класс отражает схему (данные, которые пользователь может ввести сам), по которой создаётся, обновляется, возвращается или удаляется информация о пользователе
 
 class UserCreate(BaseModel):
     username: str

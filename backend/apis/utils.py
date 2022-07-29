@@ -8,7 +8,7 @@ from typing import Optional
 from typing import Dict
 
 
-class OAuth2PasswordBearerWithCookie(OAuth2):
+class OAuth2PasswordBearerWithCookie(OAuth2):   #извлечение токена из файла cookie HttpOnly
     def __init__(
         self,
         tokenUrl: str,

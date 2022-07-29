@@ -12,7 +12,7 @@ from apis.version1 import route_authors
 from fastapi import APIRouter
 
 
-api_router = APIRouter()
+api_router = APIRouter()    #информация о всех маршрутизаторах
 api_router.include_router(route_users.router, prefix="/users", tags=["users"])
 api_router.include_router(route_admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(route_search.router, prefix="/search", tags=["serch"])

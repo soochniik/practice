@@ -13,16 +13,16 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.post("/create-theme/",response_model=ShowTheme)
+@router.post("/create-theme/",response_model=ShowTheme)     #маршрут для создания новой тематики статей
 def create_theme(theme: ThemeCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_superuser or current_user.is_moderator:
-        theme = create_new_themes(theme=theme,db=db,user=current_user.id)
+    if current_user.is_superuser or current_user.is_moderator:      #доступно для модератора и администратора
+        theme = create_new_theme(theme=theme,db=db,user=current_user.id)
         return theme
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/all",response_model=List[ShowTheme])
+@router.get("/all",response_model=List[ShowTheme])  #маршрут для показа всех тематик
 def list_all_themes(db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     themes = list_themes(db=db)
     return themes
@@ -30,13 +30,13 @@ def list_all_themes(db:Session = Depends(get_db),current_user: User = Depends(ge
                             detail=f"You are not permitted!!!!")
 
 
-@router.delete("/delete/{id}")
+@router.delete("/delete/{id}")  #маршрут для удаленияя конкретной тематики (указав id)
 def delete_theme_by_id(id: int,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     theme = retreive_theme(id =id,db=db)
     if not theme:
         return HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Theme with id {id} does not exist")
     print(theme.user,current_user.id,current_user.is_superuser)
-    if current_user.is_superuser or current_user.is_moderator:
+    if current_user.is_superuser or current_user.is_moderator:  #доступно для модератора и администратора
         delete_theme(id=id,db=db,user=current_user.id)
         return {"msg":"Successfully deleted."}
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,

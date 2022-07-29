@@ -13,7 +13,7 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.post("/create-comment/",response_model=ShowCom)
+@router.post("/create-comment/",response_model=ShowCom)     #маршрут для создания комментария конкретной статьи
 def create_comment(com: ComCreate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     com = create_new_com(com=com,db=db,user=current_user.id)
     return com
@@ -21,7 +21,7 @@ def create_comment(com: ComCreate,db: Session = Depends(get_db),current_user: Us
                             detail=f"You are not permitted!!!!")
 
 
-@router.get("/get-comments/{article}",response_model=List[ShowCom])
+@router.get("/get-comments/{article}",response_model=List[ShowCom])     #маршрут для показа всех комментариев конкретной статьи
 def read_comments(article:int, db:Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):  
     com = list_com(article=article, db=db)
     return com
@@ -29,7 +29,7 @@ def read_comments(article:int, db:Session = Depends(get_db),current_user: User =
                             detail=f"You are not permitted!!!!")
 
 
-@router.put("/update-comment/{id}")
+@router.put("/update-comment/{id}")     #маршрут для обновления комментария (указав его id)
 def update_comment(id: int,com: ComUpdate,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     if Comment.user == current_user.id or current_user.is_superuser:
         current_user = 1
@@ -43,7 +43,7 @@ def update_comment(id: int,com: ComUpdate,db: Session = Depends(get_db),current_
                             detail=f"You are not permitted!!!!") 
 
 
-@router.delete("/delete/{id}")
+@router.delete("/delete/{id}")      #маршрут для удаления комментария (указав его id)
 def delete_comment(id: int,db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
     com = retreive_com(id =id,db=db)
     if not com:

@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from db.base_class import Base
 
 
-class Reason(Base):
+class Reason(Base):     #таблица Reason
     id = Column(Integer,primary_key = True, index=True)
     description = Column(String,nullable=False)
     article = Column(Integer,ForeignKey("article.id"))

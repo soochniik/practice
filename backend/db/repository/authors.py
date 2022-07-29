@@ -4,7 +4,7 @@ from db.models.authors import Author
 from db.models.articles import Article
 
 
-def add_new_author(author: AuthorCreate, db: Session, auth:str):
+def add_new_author(author: AuthorCreate, db: Session, auth:str):   #функция для добавления в бд нового автора статьи 
     author_object = Author(**author.dict())
     art_id = author_object.article
     db.add(author_object)

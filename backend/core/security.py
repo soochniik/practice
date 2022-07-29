@@ -5,7 +5,7 @@ from jose import JWTError, jwt
 from core.config import settings
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):     #функция для содания персонального токена пользователя
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

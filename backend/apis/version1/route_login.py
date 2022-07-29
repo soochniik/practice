@@ -16,7 +16,8 @@ from jose import JWTError, jwt
 
 router = APIRouter()
 
-def authenticate_user(username: str, password: str,db: Session):
+
+def authenticate_user(username: str, password: str,db: Session):    #функция для аутентификации пользователя 
     user = get_user(username=username,db=db)
     print(user)
     if not user:
@@ -26,7 +27,7 @@ def authenticate_user(username: str, password: str,db: Session):
     return user
 
 
-@router.post("/token", response_model=Token)
+@router.post("/token", response_model=Token)    #маршрут для получения пользователем персонального токена
 def login_for_access_token(response: Response,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(form_data.username, form_data.password, db)
     no_user = get_user(form_data.username,db)
@@ -46,7 +47,7 @@ def login_for_access_token(response: Response,form_data: OAuth2PasswordRequestFo
 oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
 
 
-def get_current_user_from_token(token: str = Depends(oauth2_scheme),db: Session=Depends(get_db)): 
+def get_current_user_from_token(token: str = Depends(oauth2_scheme),db: Session=Depends(get_db)):   #функция получения информации о пользователе, используя токен
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

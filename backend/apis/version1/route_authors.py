@@ -14,9 +14,9 @@ from apis.version1.route_login import get_current_user_from_token
 router = APIRouter()
 
 
-@router.post("/add-author/{author_name}",response_model=ShowAuthor)
+@router.post("/add-author/{author_name}",response_model=ShowAuthor)     #маршрут для добавления авторов конкректных статей
 def add_author(author: AuthorCreate, author_name:str, db: Session = Depends(get_db),current_user: User = Depends(get_current_user_from_token)):
-    if current_user.is_moderator or current_user.is_superuser:
+    if current_user.is_moderator or current_user.is_superuser:      #доступно для модератора и администратора
         author = add_new_author(author=author,db=db,auth=author_name)
         return author
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,

@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 from datetime import date,datetime
 
+#каждый класс отражает схему (данные, которые пользователь может ввести сам), по которой создаётся, обновляется, возвращается или удаляется статья
 
 class ArticleBase(BaseModel):
     title : Optional[str] = None
